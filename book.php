@@ -33,6 +33,10 @@ if (isset($_GET['id'])) {
 						<h5>
                             <a href="company.php?author=<?php echo $row['authorcompany']; ?>"><?php echo $row['authorcompany']; ?></a>
                         </h5>
+						رقم اصدار الكتاب :
+						<h5>
+                            <a href="#"><?php echo $row['numberbook']; ?></a>
+                        </h5>
                         <hr>
                         <p><?php echo $row['bookContent']; ?></p>
                         <button class="custom-btn" style="width: 160px">
