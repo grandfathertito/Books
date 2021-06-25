@@ -21,6 +21,7 @@ if (!isset($_SESSION['adminInfo'])) {
         $bookCat = $_POST['bookCat'];
         $bookContent = $_POST['bookContent'];
         $authorcompany = $_POST['authorcompany'];
+        $numberbook = $_POST['numberbook'];
         // Book Cover
         $imageName = $_FILES['bookCover']['name'];
         $imageTmp = $_FILES['bookCover']['tmp_name'];
@@ -28,7 +29,7 @@ if (!isset($_SESSION['adminInfo'])) {
         // Book file
         $bookName = $_FILES['book']['name'];
         $bookTmp = $_FILES['book']['tmp_name'];
-		$qcheck = "SELECT * FROM books WHERE bookTitle = '$bookTitle'";
+		$qcheck = "SELECT * FROM books WHERE bookTitle = '$bookTitle' AND numberbook = '$numberbook'";
 		$checktitle = mysqli_query($con, $qcheck);
 		$s = '';
 		while($row = mysqli_fetch_assoc($checktitle)){
@@ -42,6 +43,8 @@ if (!isset($_SESSION['adminInfo'])) {
             $error = "<div class='alert alert-danger'>" . "الرجاء إختيار صورة مناسبة" . "</div>";
         } elseif (empty($bookName)) {
             $error = "<div class='alert alert-danger'>" . "الرجاء إختيار ملف الكتاب" . "</div>";
+        }elseif (empty($numberbook)) {
+            $error = "<div class='alert alert-danger'>" . "الرجاء ادخال رقم اصدار الكتاب" . "</div>";
         }elseif($s){
 			$error = "<div class='alert alert-danger'>" . "اسم الكتاب مستخدم" . "</div>";
 		} else {
@@ -51,8 +54,8 @@ if (!isset($_SESSION['adminInfo'])) {
             // Book cover
             $book = rand(0, 1000) . "_" . $bookName;
             move_uploaded_file($bookTmp, "../uploads/books/" . $book);
-            $query = "INSERT INTO books(bookTitle,bookAuthor,bookCat,bookCover,book,bookContent,authorcompany)
-            VALUES('$bookTitle','$bookAuthor','$bookCat','$bookCover','$book','$bookContent','$authorcompany')";
+            $query = "INSERT INTO books(bookTitle,bookAuthor,bookCat,bookCover,book,bookContent,authorcompany,numberbook)
+            VALUES('$bookTitle','$bookAuthor','$bookCat','$bookCover','$book','$bookContent','$authorcompany','$numberbook')";
             $res = mysqli_query($con, $query);
             if (isset($res)) {
                 $success = "<div class='alert alert-success'>" . "تم إضافة الكتاب بنجاح" . "</div>";
@@ -75,21 +78,27 @@ if (!isset($_SESSION['adminInfo'])) {
             <form action="<?php echo $_SERVER['PHP_SELF'] ?>" method="POST" enctype="multipart/form-data">
                 <div class="form-group">
                     <label for="title">عنوان الكتاب</label>
-                    <input type="text" id="title" class="form-control" name="bookTitle" value="<?php if (isset($bookTitle)) {
+                    <input type="text" id="bookTitle" class="form-control" name="bookTitle" value="<?php if (isset($bookTitle)) {
                                                                                                     echo $bookTitle;
                                                                                                 } ?>">
                 </div>
                 <div class="form-group">
                     <label for="author">إسم الكاتب</label>
-                    <input type="text" id="author" class="form-control" name="authorName" value="<?php if (isset($bookAuthor)) {
+                    <input type="text" id="authorName" class="form-control" name="authorName" value="<?php if (isset($bookAuthor)) {
                                                                                                         echo $bookAuthor;
                                                                                                     } ?>">
                 </div>
 				
 				<div class="form-group">
                     <label for="author">دارا النشر والطبع</label>
-                    <input type="text" id="author" class="form-control" name="authorcompany" value="<?php if (isset($bookAuthor)) {
+                    <input type="text" id="authorcompany" class="form-control" name="authorcompany" value="<?php if (isset($bookAuthor)) {
                                                                                                         echo $bookAuthor;
+                                                                                                    } ?>">
+                </div>
+				<div class="form-group">
+                    <label for="author">رقم اصدار الكتاب</label>
+                    <input type="text" id="numberbook" class="form-control" name="numberbook" value="<?php if (isset($numberbook)) {
+                                                                                                        echo $numberbook;
                                                                                                     } ?>">
                 </div>
                 <div class="form-group">
