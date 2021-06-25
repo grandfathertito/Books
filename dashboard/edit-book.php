@@ -35,6 +35,7 @@ if (!isset($_SESSION['adminInfo'])) {
         $bookName = $_FILES['book']['name'];
         $bookTmp = $_FILES['book']['tmp_name'];
 
+		//Valideation
         if (empty($bookTitle) || empty($bookAuthor) || empty($bookCat) || empty($bookContent)) {
             $error = "<div class='alert alert-danger'>" . "الرجاء ملء الحقول أدناه" . "</div>";
         } elseif (empty($imageName)) {
