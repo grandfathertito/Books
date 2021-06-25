@@ -50,7 +50,7 @@ if (!isset($_SESSION['adminInfo'])) {
                     $res = mysqli_query($con, $query);
                     $sNo = 0;
                     while ($row = mysqli_fetch_assoc($res)) {
-                        $sNo++;
+                        $sNo++; //Counter
                     ?>
 
                         <tr>
